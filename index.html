@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rak Zine</title>
+<meta name="description" content="Kumpulan zine yang bisa dibaca seperti buku.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* reset for a standalone page */
+:root{color-scheme:light}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);height:100%}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+/* Layout: calm, modern shelf. Quiet masthead, soft-shadow covers with a spine highlight, dark reading stage with round controls, plus a scroll-based reading mode for small print. */
+:root{
+  --bg:#F3F4F1; --surface:#FFFFFF; --ink:#1C2427; --muted:#647177; --line:#DCE1DF;
+  --accent:#1E6F78; --accent-ink:#FFFFFF; --tint:#E1EFEF; --danger:#B3261E;
+  --shadow:0 1px 2px rgba(20,35,40,.08),0 16px 30px -16px rgba(20,35,40,.38);
+  --stage:#0C1113; --stage-fg:#E7EDEF; --stage-line:#222C31; --stage-btn:#1A2327;
+  --font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1416; --surface:#182024; --ink:#E7EDEF; --muted:#92A0A6; --line:#263237;
+    --accent:#5BC0C6; --accent-ink:#08191B; --tint:#17323A; --danger:#FF8F85;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 18px 34px -16px rgba(0,0,0,.8); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1416; --surface:#182024; --ink:#E7EDEF; --muted:#92A0A6; --line:#263237;
+  --accent:#5BC0C6; --accent-ink:#08191B; --tint:#17323A; --danger:#FF8F85;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 18px 34px -16px rgba(0,0,0,.8); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:28px 64px;min-height:100%}
+body.lock{overflow:hidden}
+.wrap{max-width:1120px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* masthead */
+.mast{padding-block:12px 4px}
+.mast h1{margin:0;font-weight:800;font-size:clamp(34px,7vw,60px);line-height:1.02;letter-spacing:-.035em;text-wrap:balance;overflow-wrap:anywhere}
+.mast p{margin:12px 0 0;font-size:17px;color:var(--muted);max-width:52ch;text-wrap:pretty}
+
+/* owner strip */
+.ownerbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:24px;padding:10px 10px 10px 16px;
+  background:var(--tint);border-radius:999px;width:fit-content;max-width:100%}
+.ownerbar .tag{font-size:13px;font-weight:700;color:var(--accent);margin-right:6px}
+.btn{font-weight:600;font-size:14px;line-height:1.2;padding:10px 18px;border-radius:999px;background:var(--surface);
+  border:1px solid var(--line);transition:transform .12s,background .12s,border-color .12s}
+.btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger)}
+.btn[disabled]{opacity:.45;cursor:default;transform:none}
+.siteform{display:grid;gap:12px;margin-top:14px;padding:18px;border-radius:18px;background:var(--surface);box-shadow:var(--shadow);max-width:640px}
+
+/* forms */
+label{display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--muted)}
+input[type=text],input[type=number],input[type=password],textarea{font:inherit;font-size:16px;font-weight:400;color:var(--ink);background:var(--bg);
+  border:1px solid var(--line);padding:11px 13px;width:100%;min-width:0;border-radius:10px}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--tint)}
+textarea{resize:vertical;min-height:76px}
+label.check{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--ink)}
+label.check input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+
+/* shelf */
+.shelf{margin-top:40px}
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.sec h2{margin:0;font-size:15px;font-weight:700;letter-spacing:.02em}
+.sec span{font-size:14px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:36px 24px;align-items:start}
+.zine{display:grid;gap:12px;min-width:0}
+.cover{position:relative;display:block;width:100%;padding:0;border:0;border-radius:6px 10px 10px 6px;background:var(--surface);
+  box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease;overflow:hidden}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(255,255,255,.14) 2.5%,rgba(0,0,0,.06) 5%,transparent 9%)}
+.cover:hover{transform:translateY(-4px)}
+.cover img{display:block;width:100%;height:100%;object-fit:cover}
+.zine h3{margin:0;font-size:16px;font-weight:700;line-height:1.3;letter-spacing:-.01em;overflow-wrap:anywhere}
+.zine .meta{font-size:13px;color:var(--muted);margin-top:-8px}
+.zine .edit{justify-self:start;font-size:13px;font-weight:600;color:var(--accent);background:none;border:0;padding:0}
+.zine .edit:hover{text-decoration:underline}
+.empty{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:34px 26px;max-width:560px}
+.empty h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.empty p{margin:0 0 18px;color:var(--muted)}
+.note{color:var(--muted);font-size:14px}
+
+/* reader */
+.reader{position:fixed;inset:0;z-index:50;background:radial-gradient(120% 90% at 50% 0%,#162126 0%,var(--stage) 60%);color:var(--stage-fg);display:flex;flex-direction:column;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.reader header{display:flex;align-items:center;gap:10px;padding:12px 16px}
+.reader h2{margin:0;font-size:16px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:42px;height:42px;padding:0 16px;border-radius:999px;
+  background:var(--stage-btn);color:var(--stage-fg);border:1px solid var(--stage-line);font-weight:600;font-size:14px}
+.rbtn.sq{padding:0;width:42px}
+.rbtn:hover{border-color:#5BC0C6}
+.rbtn[disabled]{opacity:.35;cursor:default}
+.rbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.stage{flex:1;min-height:0;display:grid;place-items:center;padding:8px 12px;overflow:hidden}
+.book{position:relative}
+.bpage{background:#fff;overflow:hidden}
+.bpage img{display:block;width:100%;height:100%;object-fit:fill;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.fallback{display:grid;place-items:center;width:100%;height:100%}
+.fallback img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 10px 40px #000a}
+.reader footer{display:flex;align-items:center;justify-content:center;gap:14px;padding:10px 16px 16px}
+.reader .count{min-width:84px;text-align:center;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums;
+  padding:10px 16px;border-radius:999px;background:var(--stage-btn);border:1px solid var(--stage-line)}
+.reader .hint{font-size:13px;color:#8D9BA1;text-align:center;padding:0 16px}
+.scroll{flex:1;min-height:0;overflow:auto;padding:8px 16px 40px;display:flex;flex-direction:column;align-items:center;gap:14px;-webkit-overflow-scrolling:touch}
+.scroll .pg{width:min(100%,980px);flex:none;background:#fff;border-radius:4px;box-shadow:0 10px 36px #000a}
+.scroll .pg img{display:block;width:100%;height:auto}
+.scroll.z2{align-items:flex-start}
+.scroll.z2 .pg{width:max(190%,1500px)}
+
+/* editor sheet */
+.sheet{position:fixed;inset:0;z-index:60;background:rgba(8,14,16,.62);display:grid;align-items:start;justify-items:center;overflow-y:auto;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.panel{background:var(--surface);border-radius:22px;box-shadow:0 30px 80px -20px rgba(0,0,0,.55);width:100%;max-width:660px;padding:24px;display:grid;gap:16px;margin-block:auto}
+.panel h2{margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.row{display:grid;grid-template-columns:1fr 120px;gap:12px}
+.drop{border:1.5px dashed var(--line);border-radius:16px;background:var(--bg);padding:20px 16px;text-align:center;display:grid;gap:10px;justify-items:center;transition:background .12s,border-color .12s}
+.drop.over{background:var(--tint);border-color:var(--accent)}
+.drop p{margin:0;font-size:13px;color:var(--muted);max-width:46ch}
+.rowhead{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
+.rowhead button{font-size:13px;font-weight:600;color:var(--danger);background:none;border:0;padding:0}
+.thumbs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:12px}
+.thumbs li{display:grid;gap:6px;min-width:0}
+.thumbs .pg{position:relative;border-radius:8px;background:var(--bg);box-shadow:0 0 0 1px var(--line);aspect-ratio:3/4;overflow:hidden}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.thumbs .num{position:absolute;left:6px;top:6px;background:rgba(10,18,20,.78);color:#fff;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px}
+.thumbs .ctl{display:flex;gap:4px}
+.thumbs .ctl button{flex:1;font-size:15px;line-height:1;padding:6px 0;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+.thumbs .ctl button:hover:not([disabled]){border-color:var(--accent)}
+.thumbs .ctl button[disabled]{opacity:.35;cursor:default}
+.status{font-size:14px;min-height:1.4em;color:var(--muted)}
+.status.err{color:var(--danger)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.actions .sp{flex:1}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:80;
+  background:var(--ink);color:var(--bg);font-size:14px;font-weight:600;padding:11px 18px;border-radius:999px;max-width:calc(100% - 32px)}
+/* contact links */
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:999px;background:var(--surface);border:1px solid var(--line);
+  font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;transition:border-color .12s,color .12s,transform .12s}
+.chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.chip small{font-size:12px;font-weight:500;color:var(--muted)}
+.rlinks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:8px}
+.rlinks:empty{display:none}
+.rlinks .chip{background:var(--stage-btn);border-color:var(--stage-line);color:var(--stage-fg);padding:6px 13px;font-size:13px}
+.rlinks .chip small{color:#8D9BA1}
+.linkedit{display:grid;gap:10px;justify-items:start}
+.linkedit .lbl{font-size:13px;font-weight:600;color:var(--muted)}
+.linkedit .help{font-size:12px;color:var(--muted)}
+.linklist{display:grid;gap:8px;width:100%}
+.linkrow{display:grid;grid-template-columns:1fr 1.7fr auto;gap:8px;align-items:center}
+.linkrow button{width:38px;height:38px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:18px;line-height:1}
+.linkrow button:hover{border-color:var(--danger);color:var(--danger)}
+@media (max-width:520px){
+  .linkrow{grid-template-columns:1fr auto}
+  .linkrow input:nth-child(2){grid-column:1/-1;grid-row:2}
+  .linkrow button{grid-column:2;grid-row:1}
+}
+/* footer and owner sign-in */
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
+.linkbtn{background:none;border:0;padding:0;font-size:13px;color:var(--muted);text-decoration:underline}
+.linkbtn:hover{color:var(--accent)}
+.help{margin:0;font-size:13px;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:480px){.row{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 16px}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <h1 id="siteName">Rak Zine</h1>
+    <p id="siteTagline">Kumpulan zine buatan sendiri. Klik sampul, lalu geser untuk membuka halamannya.</p>
+    <div class="links" id="links" hidden></div>
+    <div class="ownerbar" id="ownerbar" hidden>
+      <span class="tag">Mode pemilik</span>
+      <button class="btn primary" id="addBtn" type="button">+ Tambah zine</button>
+      <button class="btn ghost" id="siteBtn" type="button">Ubah info situs</button>
+      <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
+    </div>
+    <form class="siteform" id="siteForm" hidden>
+      <label for="sfName">Nama situs<input type="text" id="sfName" maxlength="60"></label>
+      <label for="sfTag">Keterangan singkat<input type="text" id="sfTag" maxlength="140"></label>
+      <div class="linkedit">
+        <span class="lbl">Kontak dan media sosial</span>
+        <div id="sfLinks" class="linklist"></div>
+        <button class="btn ghost" type="button" id="sfAddLink">+ Tambah tautan</button>
+        <span class="help">Isi alamat lengkap seperti https://instagram.com/usernamekamu. Alamat email akan tampil sebagai tombol "salin".</span>
+      </div>
+      <div class="actions"><button class="btn primary" type="submit">Simpan</button><button class="btn ghost" type="button" id="sfCancel">Batal</button></div>
+    </form>
+  </header>
+  <main class="shelf" id="shelf"></main>
+  <footer class="foot"><span id="footNote">Dibuat dengan tangan, dibaca di layar.</span><button class="linkbtn" id="ownerLink" type="button">Masuk pemilik</button></footer>
+</div>
+
+<div class="reader" id="reader" hidden role="dialog" aria-modal="true" aria-label="Pembaca zine">
+  <header>
+    <h2 id="rTitle"></h2>
+    <button class="rbtn" id="rMode" type="button">2 halaman</button>
+    <button class="rbtn" id="rRead" type="button">Mode baca</button>
+    <button class="rbtn" id="rZoom" type="button" hidden>Perbesar</button>
+    <button class="rbtn sq" id="rClose" type="button" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </header>
+  <div class="stage" id="stage"><div class="book" id="book"></div></div>
+  <div class="scroll" id="scroll" hidden></div>
+  <div class="hint" id="hint"><span>Geser atau tarik pojok halaman untuk membuka lembar berikutnya. Teks kecil? Coba Mode baca.</span><div class="rlinks" id="rLinks"></div></div>
+  <footer id="rFoot">
+    <button class="rbtn sq" id="rPrev" type="button" aria-label="Halaman sebelumnya"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="count" id="rCount">1 / 1</span>
+    <button class="rbtn sq" id="rNext" type="button" aria-label="Halaman berikutnya"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </footer>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <form class="panel" id="editForm" role="dialog" aria-modal="true" aria-labelledby="edTitle">
+    <h2 id="edTitle">Zine baru</h2>
+    <div class="row">
+      <label for="fTitle">Judul<input type="text" id="fTitle" maxlength="120" required></label>
+      <label for="fYear">Tahun<input type="number" id="fYear" min="1900" max="2100"></label>
+    </div>
+    <label for="fDesc">Keterangan (opsional)<textarea id="fDesc" maxlength="600"></textarea></label>
+    <div class="drop" id="drop">
+      <button class="btn" type="button" id="pickBtn">Pilih PDF atau gambar halaman</button>
+      <p>Bisa juga seret file ke sini. Gambar diurutkan menurut nama file (1, 2, 3...), lalu bisa kamu atur ulang di bawah. Halaman pertama jadi sampul.</p>
+      <input type="file" id="fFiles" accept="image/*,application/pdf" multiple hidden>
+    </div>
+    <label class="check" for="fTrim"><input type="checkbox" id="fTrim" checked> Pangkas tepi putih otomatis saat menambah file</label>
+    <div class="rowhead"><span id="pgCount"></span><button type="button" id="clearBtn" hidden>Kosongkan semua halaman</button></div>
+    <ul class="thumbs" id="thumbs"></ul>
+    <div class="status" id="edStatus" role="status"></div>
+    <div class="actions">
+      <button class="btn primary" type="submit" id="saveBtn">Simpan zine</button>
+      <button class="btn ghost" type="button" id="cancelBtn">Batal</button>
+      <span class="sp"></span>
+      <button class="btn danger ghost" type="button" id="delBtn" hidden>Hapus zine</button>
+    </div>
+  </form>
+</div>
+
+<div class="sheet" id="loginSheet" hidden>
+  <form class="panel" id="loginForm" role="dialog" aria-modal="true" aria-labelledby="lgTitle">
+    <h2 id="lgTitle">Masuk pemilik</h2>
+    <p class="help">Isi data GitHub tempat situs ini disimpan. Data ini hanya tersimpan di browser ini, tidak dikirim ke tempat lain selain GitHub.</p>
+    <div class="row2">
+      <label for="lgOwner">Username GitHub<input type="text" id="lgOwner" autocomplete="off" autocapitalize="off" required></label>
+      <label for="lgRepo">Nama repositori<input type="text" id="lgRepo" autocomplete="off" autocapitalize="off" required></label>
+    </div>
+    <div class="row2">
+      <label for="lgBranch">Cabang<input type="text" id="lgBranch" value="main" autocomplete="off" autocapitalize="off"></label>
+      <span></span>
+    </div>
+    <label for="lgToken">Token akses<input type="password" id="lgToken" autocomplete="off" required></label>
+    <div class="status" id="lgStatus" role="status"></div>
+    <div class="actions">
+      <button class="btn primary" type="submit" id="lgSave">Simpan dan uji</button>
+      <button class="btn ghost" type="button" id="lgCancel">Batal</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+<script src="gh.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
