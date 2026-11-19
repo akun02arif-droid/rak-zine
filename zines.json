@@ -1,4 +1,13 @@
 {
-  "site": {},
+  "site": {
+    "name": "Rak Zine",
+    "tagline": "Kumpulan zine buatan sendiri. Klik sampul, lalu geser untuk membuka halamannya.",
+    "links": [
+      {
+        "label": "@syrhdnn_",
+        "url": "https://www.instagram.com/syrhdnn_?hvrq=ODh6cGFxdXhtNDUx"
+      }
+    ]
+  },
   "zines": []
 }
