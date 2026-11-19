@@ -9,5 +9,26 @@
       }
     ]
   },
-  "zines": []
+  "zines": [
+    {
+      "id": "berapa-kali-kita-akan-saling-memaafkan-mwn69khi",
+      "title": "Berapa Kali Kita akan Saling Memaafkan",
+      "year": 2026,
+      "description": "",
+      "pages": [
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-zx2ntl.jpg",
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-6ix2e7.jpg",
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-oz4bjj.jpg",
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-m4hpsa.jpg",
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-jeyajr.jpg",
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-c1hqjt.jpg",
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-niion7.jpg",
+        "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-tp1ipj.jpg"
+      ],
+      "cover": "berapa-kali-kita-akan-saling-memaafkan-mwn69khi-zx2ntl.jpg",
+      "ratio": 0.7069230769230769,
+      "createdAt": 1795069891859,
+      "updatedAt": 1795069891859
+    }
+  ]
 }
